@@ -10,9 +10,9 @@
 @prefix jdbc: <http://d2rq.org/terms/jdbc/> .
 
 map:database a d2rq:Database;
-	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
-	d2rq:jdbcDSN "jdbc:mysql://localhost:3306/StarWars";
-	d2rq:username "root";
+	d2rq:jdbcDSN "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/heroku_3ee377ac86bf00e";
+	d2rq:username "be70a1551efa47";
+	d2rq:password "911b8d3d";
 	jdbc:autoReconnect "true";
 	jdbc:zeroDateTimeBehavior "convertToNull";
 	.
