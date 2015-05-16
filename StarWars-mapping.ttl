@@ -1,0 +1,273 @@
+@prefix map: <#> .
+@prefix db: <> .
+@prefix vocab: <vocab/> .
+@prefix fictu: <http://example/fictu#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix d2rq: <http://www.wiwiss.fu-berlin.de/suhl/bizer/D2RQ/0.1#> .
+@prefix jdbc: <http://d2rq.org/terms/jdbc/> .
+
+map:database a d2rq:Database;
+	d2rq:jdbcDriver "com.mysql.jdbc.Driver";
+	d2rq:jdbcDSN "jdbc:mysql://localhost:3306/StarWars";
+	d2rq:username "root";
+	jdbc:autoReconnect "true";
+	jdbc:zeroDateTimeBehavior "convertToNull";
+	.
+# We first map all the classes.
+# Table ERA
+map:Era a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ERA/@@ERA.ID@@";
+	d2rq:class fictu:Era;
+	d2rq:classDefinitionLabel "Era";
+	.
+
+# All events will be mapped here.
+# Adoption Event.
+map:Adoption a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "ADOPTION/@@EVENTS.ID@@";
+	d2rq:class fictu:Adoption;
+	d2rq:condition "EVENTS.TYPE = '1'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Affliation Event.
+map:Affliation a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Affliation/@@EVENTS.ID@@";
+	d2rq:class fictu:Affliation;
+	d2rq:condition "EVENTS.TYPE = '2'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Born Event
+map:Born a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Born/@@EVENTS.ID@@";
+	d2rq:class fictu:Born;
+	d2rq:condition "EVENTS.TYPE = '3'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Death Event
+map:Death a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Death/@@EVENTS.ID@@";
+	d2rq:class fictu:Death;
+	d2rq:condition "EVENTS.TYPE = '4'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Conflict Event
+map:Conflict a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Conflict/@@EVENTS.ID@@";
+	d2rq:class fictu:Conflict;
+	d2rq:condition "EVENTS.TYPE = '5'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# RelationalEvent Event
+map:RelationalEvent a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "RelationalEvent/@@EVENTS.ID@@";
+	d2rq:class fictu:RelationalEvent;
+	d2rq:condition "EVENTS.TYPE = '6'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Training Event
+map:Training a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Training/@@EVENTS.ID@@";
+	d2rq:class fictu:Training;
+	d2rq:condition "EVENTS.TYPE = '7'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Other Event
+map:Other a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Other/@@EVENTS.ID@@";
+	d2rq:class fictu:Other;
+	d2rq:condition "EVENTS.TYPE = '0'";
+	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
+	.
+# Subclass relation Of Events
+map:subClassOfEvents a d2rq:AdditionalProperty;
+	d2rq:propertyName rdfs:subClassOf;
+	d2rq:propertyValue fictu:Events;
+	.
+
+# Class Gender
+map:Gender a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "CHARACTER_GENDER/@@FCE.GENDER@@";
+	d2rq:class fictu:Gender;
+	.
+
+# Class Species
+map:Species a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "SPECIES/@@SPECIES.ID@@";
+	d2rq:class fictu:Species;
+	d2rq:classDefinitionLabel "Species";
+	.
+
+# Class Homeworld
+map:Planet a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "PLANET/@@HOMEWORLD.ID@@";
+	d2rq:class fictu:Planet;
+	d2rq:classDefinitionLabel "Planet";
+	d2rq:additionalClassDefinitionProperty map:subClassOfLocation;
+	.
+
+# Subclass of Location
+map:subClassOfLocation a d2rq:AdditionalProperty;
+	d2rq:propertyName rdfs:subClassOf;
+	d2rq:propertyValue fictu:Location ;
+	.
+# Class Character
+map:Character a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "Character/@@FCE.ID@@";
+	d2rq:class fictu:Character;
+	d2rq:classDefinitionLabel "Character";
+	.
+# Class Language
+map:Language a d2rq:ClassMap;
+	d2rq:dataStorage map:database;
+	d2rq:uriPattern "LANGUAGE/@@LANGUAGE.ID@@";
+	d2rq:class fictu:Language;
+	d2rq:classDefinitionLabel "Language";
+	.
+
+# All the property below will be mapped by the sequence of Classes.
+
+# All the property with a domain of Era.
+map:Era_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Era;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@ERA.NAME@@";
+	.
+# Era has name.
+map:hasEraName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Era;
+	d2rq:property fictu:eraHasName;
+	d2rq:propertyDefinitionLabel "ERA NAME";
+	d2rq:column "ERA.NAME";
+	.
+# Era has start year
+map:hasStartYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Era;
+	d2rq:property fictu:hasStartYear;
+	d2rq:propertyDefinitionLabel "EraStartYear";
+	d2rq:column "ERA.START_YEAR";
+	d2rq:datatype xsd:integer;
+	.
+# Era has end year
+map:hasEndYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Era;
+	d2rq:property fictu:hasEndYear;
+	d2rq:propertyDefinitionLabel "EraEndYear";
+	d2rq:column "ERA.END_YEAr";
+	d2rq:datatype xsd:integer;
+	.
+
+# Properties of Character
+# Here I did not map hasAge property
+map:FCE_label a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property rdfs:label;
+	d2rq:pattern "@@FCE.FIRSTNAME@@ @@FCE.LASTNAME@@";
+	d2rq:datatype xsd:string;
+	.
+map:hasHeight a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasHeight;
+	d2rq:column "FCE.HEIGHT";
+	d2rq:datatype xsd:decimal;
+	.
+map:hasEyeColor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:has;
+	d2rq:column "FCE.EYECOLOR";
+	.
+map:hasHairColor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasHairColor;
+	d2rq:column "FCE.HAIRCOLOR";
+	.
+map:hasSkinColor a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasSkinColor;
+	d2rq:column "FCE.SKINCOLOR";
+	.
+map:hasGender a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:FCE_GENDER;
+	d2rq:uriPattern "Character/@@FCE.GENDER@@";
+	.
+map:hasTitle a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasTitle;
+	d2rq:pattern "@@FCE.TITLE@@";
+	.
+# All properties with name.	
+map:hasFirstName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasFirstName;
+	d2rq:column "FCE.FIRSTNAME";
+	d2rq:datatype xsd:string;
+	.
+map:hasLastName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasLastName;
+	d2rq:column "FCE.LASTNAME";
+	d2rq:datatype xsd:string;
+	.
+map:hasName a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasName;
+	d2rq:pattern "@@FCE.FIRSTNAME@@ @@FCE.LASTNAME@@";
+	d2rq:datatype xsd:string;
+	.
+# Parent Table relation
+map:hasFather a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasFather;
+	d2rq:join "FCE.ID <= PARENTS.FCE_ID";
+	d2rq:join "FATHER_FCE.ID <= PARENTS.BIOFATHER_ID";
+	d2rq:refersToClassMap map:Character;
+	d2rq:alias "FCE AS FATHER_FCE"
+	.
+map:hasMother a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasMother;
+	d2rq:join "FCE.ID <= PARENTS.FCE_ID";
+	d2rq:join "MOTHER_FCE.ID <= PARENTS.BIOMOTHER_ID";
+	d2rq:refersToClassMap map:Character;
+	d2rq:alias "FCE AS MOTHER_FCE"
+	.
+# Master relation
+map:isApprenticeOf a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:isApprenticeOf;
+	d2rq:join "FCE.ID => MASTERS.FCE_ID";
+	d2rq:join "APPRENTICE_FCE.ID <= MASTERS.MASTER_ID";
+	d2rq:refersToClassMap map:Character;
+	d2rq:alias "FCE AS APPRENTICE_FCE";
+	.
+map:isMasterOf a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:isMasterOf;
+	d2rq:join "FCE.ID => MASTERS.Master_ID";
+	d2rq:join "MASTER_FCE.ID <= MASTERS.FCE_ID";
+	d2rq:refersToClassMap map:Character;
+	d2rq:alias "FCE AS MASTER_FCE";
+	.
+# Species relation
+map:isMemberOf a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:isMemberOf;
+	d2rq:join "FCE.SPECIES_ID => SPECIES.ID";
+	d2rq:refersToClassMap map:Species;
+	.

@@ -1,33 +1,7 @@
-# java-getting-started
+# Run the following command, with the right 'Dfile' which leads to the file in your local machine.
 
-A barebones Java app, which can easily be deployed to Heroku.  
+mvn install:install-file -Dfile=/Applications/d2rq-0.8.1/lib/d2rq-0.8.1.jar -DgroupId=d2rq -DartifactId=d2rq -Dversion=0.8.1 -Dpackaging=jar
 
-This application support the [Getting Started with Java on Heroku](https://devcenter.heroku.com/articles/getting-started-with-java) article - check it out.
+mvn install:install-file -Dfile=/Applications/d2rq-0.8.1/lib/mysql-connector-java-5.1.35-bin.jar -DgroupId=JDBCDriver -DartifactId=mysql-driver -Dversion=5.1.35 -Dpackaging=jar
 
-## Running Locally
-
-Make sure you have Java and Maven installed.  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
-
-```sh
-$ git clone https://github.com/heroku/java-getting-started.git
-$ cd java-getting-started
-$ mvn install
-$ foreman start web
-```
-
-Your app should now be running on [localhost:5000](http://localhost:5000/).
-
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
-
-## Documentation
-
-For more information about using Java on Heroku, see these Dev Center articles:
-
-- [Java on Heroku](https://devcenter.heroku.com/categories/java)
-
+# Run maven clean install.

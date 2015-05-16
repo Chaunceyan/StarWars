@@ -6,6 +6,7 @@ import org.eclipse.jetty.servlet.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
+import org.apache.log4j.BasicConfigurator;
 
 public class Main extends HttpServlet {
   @Override
@@ -21,7 +22,8 @@ public class Main extends HttpServlet {
 
   private void showHome(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    resp.getWriter().print("Hello from Java!");
+    BasicConfigurator.configure();
+    resp.getWriter().print(new QueryFunction().doQuery());
   }
 
   private void showDatabase(HttpServletRequest req, HttpServletResponse resp)

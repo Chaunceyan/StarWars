@@ -5,8 +5,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.example</groupId>
   <version>1.0-SNAPSHOT</version>
-  <artifactId>helloworld</artifactId>
+  <artifactId>StarWars</artifactId>
   <dependencies>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+    </dependency>
     <dependency>
       <groupId>org.eclipse.jetty</groupId>
       <artifactId>jetty-servlet</artifactId>
@@ -21,6 +26,21 @@
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.4-1201-jdbc4</version>
+    </dependency>
+    <dependency>
+      <groupId>JDBCDriver</groupId>
+      <artifactId>mysql-driver</artifactId>
+      <version>5.1.35</version>
+    </dependency>
+    <dependency>
+      <groupId>d2rq</groupId>
+      <artifactId>d2rq</artifactId>
+      <version>0.8.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jena</groupId>
+      <artifactId>jena-arq</artifactId>
+      <version>2.9.0-incubating</version>
     </dependency>
   </dependencies>
   <build>
