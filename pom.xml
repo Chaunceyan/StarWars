@@ -11,7 +11,7 @@
     <repository>
         <id>project.local</id>
         <name>project</name>
-        <url>file:./target/dependency</url>
+        <url>file:./target/dependency/</url>
     </repository>
 </repositories>
   <dependencies>
