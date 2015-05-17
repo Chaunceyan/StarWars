@@ -17,6 +17,8 @@ public class Main extends HttpServlet {
       showDatabase(req,resp);
     } else {
       showHome(req,resp);
+      String q = req.getParameter("q");
+      resp.getWriter().println(q);
     }
   }
 
