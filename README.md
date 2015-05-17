@@ -11,5 +11,3 @@ mvn deploy:deploy-file -Durl=file:./target/dependency/ -Dfile=./target/dependenc
 mvn clean install
 
 foreman start web
-
-#Run "maven clean install".
