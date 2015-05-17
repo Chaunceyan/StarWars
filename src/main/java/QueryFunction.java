@@ -7,7 +7,7 @@ import org.apache.log4j.BasicConfigurator;
 public class QueryFunction {
 	public String doQuery() {
 		BasicConfigurator.configure();
-		Model m = new ModelD2RQ("file:/Users/Chauncey/Documents/Projects/StarWars/java-getting-started/StarWars-mapping.ttl");
+		Model m = new ModelD2RQ("file:./StarWars-mapping.ttl");
 		// Find anything with an rdf:type of iswc:InProceedings
 		String sparql = 
 			"PREFIX fictu:<http://example/fictu#>" +

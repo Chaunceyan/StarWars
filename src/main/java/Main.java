@@ -6,7 +6,7 @@ import org.eclipse.jetty.servlet.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
-import org.apache.log4j.BasicConfigurator;
+
 
 public class Main extends HttpServlet {
   @Override
@@ -22,7 +22,6 @@ public class Main extends HttpServlet {
 
   private void showHome(HttpServletRequest req, HttpServletResponse resp)
       throws ServletException, IOException {
-    BasicConfigurator.configure();
     resp.getWriter().print(new QueryFunction().doQuery());
   }
 
@@ -63,7 +62,7 @@ public class Main extends HttpServlet {
   }
 
   public static void main(String[] args) throws Exception {
-    Server server = new Server(Integer.valueOf(System.getenv("PORT")));
+    Server server = new Server(5000); 
     ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
     context.setContextPath("/");
     server.setHandler(context);
