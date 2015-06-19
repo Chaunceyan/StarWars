@@ -28,71 +28,34 @@ map:Era a d2rq:ClassMap;
 	.
 
 # All events will be mapped here.
-# Adoption Event.
-map:Adoption a d2rq:ClassMap;
+# Class Birth
+map:Birth a d2rq:ClassMap;
 	d2rq:dataStorage map:database;
-	d2rq:uriPattern "ADOPTION/@@EVENTS.ID@@";
-	d2rq:class fictu:Adoption;
+	d2rq:uriPattern "EVENTS/@@EVENTS.ID@@";
+	d2rq:class fictu:Conflict;
+	d2rq:classDefinitionLabel "Birth";
 	d2rq:condition "EVENTS.TYPE = '1'";
 	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
 	.
-# Affliation Event.
-map:Affliation a d2rq:ClassMap;
+# Class Death
+map:Death a d2rq:ClassMap;
 	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Affliation/@@EVENTS.ID@@";
-	d2rq:class fictu:Affliation;
+	d2rq:uriPattern "EVENTS/@@EVENTS.ID@@";
+	d2rq:class fictu:Death;
+	d2rq:classDefinitionLabel "Death";
 	d2rq:condition "EVENTS.TYPE = '2'";
 	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
 	.
-# Born Event
-map:Born a d2rq:ClassMap;
+# Class Conflict
+map:Conflict a d2rq:ClassMap;
 	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Born/@@EVENTS.ID@@";
-	d2rq:class fictu:Born;
+	d2rq:uriPattern "EVENTS/@@EVENTS.ID@@";
+	d2rq:class fictu:Conflict;
+	d2rq:classDefinitionLabel "Conflict";
 	d2rq:condition "EVENTS.TYPE = '3'";
 	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
 	.
-# Death Event
-map:Death a d2rq:ClassMap;
-	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Death/@@EVENTS.ID@@";
-	d2rq:class fictu:Death;
-	d2rq:condition "EVENTS.TYPE = '4'";
-	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
-	.
-# Conflict Event
-map:Conflict a d2rq:ClassMap;
-	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Conflict/@@EVENTS.ID@@";
-	d2rq:class fictu:Conflict;
-	d2rq:condition "EVENTS.TYPE = '5'";
-	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
-	.
-# RelationalEvent Event
-map:RelationalEvent a d2rq:ClassMap;
-	d2rq:dataStorage map:database;
-	d2rq:uriPattern "RelationalEvent/@@EVENTS.ID@@";
-	d2rq:class fictu:RelationalEvent;
-	d2rq:condition "EVENTS.TYPE = '6'";
-	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
-	.
-# Training Event
-map:Training a d2rq:ClassMap;
-	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Training/@@EVENTS.ID@@";
-	d2rq:class fictu:Training;
-	d2rq:condition "EVENTS.TYPE = '7'";
-	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
-	.
-# Other Event
-map:Other a d2rq:ClassMap;
-	d2rq:dataStorage map:database;
-	d2rq:uriPattern "Other/@@EVENTS.ID@@";
-	d2rq:class fictu:Other;
-	d2rq:condition "EVENTS.TYPE = '0'";
-	d2rq:additionalClassDefinitionProperty map:subClassOfEvents;
-	.
-# Subclass relation Of Events
+# SubclassDefinitionProperty
 map:subClassOfEvents a d2rq:AdditionalProperty;
 	d2rq:propertyName rdfs:subClassOf;
 	d2rq:propertyValue fictu:Events;
@@ -211,7 +174,8 @@ map:hasGender a d2rq:PropertyBridge;
 map:hasTitle a d2rq:PropertyBridge;
 	d2rq:belongsToClassMap map:Character;
 	d2rq:property fictu:hasTitle;
-	d2rq:pattern "@@FCE.TITLE@@";
+	d2rq:join "FCE.TITLE => TITLE.ID";
+	d2rq:pattern "@@TITLE.NAME@@";
 	.
 # All properties with name.	
 map:hasFirstName a d2rq:PropertyBridge;
@@ -263,10 +227,55 @@ map:isMasterOf a d2rq:PropertyBridge;
 	d2rq:refersToClassMap map:Character;
 	d2rq:alias "FCE AS MASTER_FCE";
 	.
+# Partner relation 
+map:hasPartner a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Character;
+	d2rq:property fictu:hasPartner;
+	d2rq:join "FCE.ID => PARTNERS.FCE_ID";
+	d2rq:join "PARTNERS.PARTNER_FCE_ID => PARTNER_FCE.ID";
+	d2rq:refersToClassMap map:Character;
+	d2rq:alias "FCE AS PARTNER_FCE";
+	.
 # Species relation
 map:isMemberOf a d2rq:PropertyBridge;
 	d2rq:belongsToClassMap map:Character;
 	d2rq:property fictu:isMemberOf;
 	d2rq:join "FCE.SPECIES_ID => SPECIES.ID";
 	d2rq:refersToClassMap map:Species;
+	.
+# Event has era 
+map:hasEra a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Birth;
+	d2rq:property fictu:hasEra;
+	d2rq:join "EVENTS.ERA_ID <= ERA.ID";
+	d2rq:refersToClassMap map:Era;
+	.
+map:hasEra a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Death;
+	d2rq:property fictu:hasEra;
+	d2rq:join "EVENTS.ERA_ID <= ERA.ID";
+	d2rq:refersToClassMap map:Era;
+	.
+# Birth/Death takes place.
+map:birthTakesPlaceInYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Birth;
+	d2rq:property fictu:takesPlaceInYear;
+	d2rq:pattern "@@EVENTS.YEAR@@";
+	.
+map:deathTakesPlaceInYear a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Death;
+	d2rq:property fictu:takesPlaceInYear;
+	d2rq:pattern "@@EVENTS.YEAR@@";
+	.
+map:involves a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Birth;
+	d2rq:property fictu:involves;
+	d2rq:join "FCE.ID <= EVENTS.FCE_ID";
+	d2rq:refersToClassMap map:Character;
+	.
+map:involves a d2rq:PropertyBridge;
+	d2rq:belongsToClassMap map:Death;
+	d2rq:property fictu:involves;
+	d2rq:join "FCE.ID <= EVENTS.FCE_ID";
+	d2rq:refersToClassMap map:Character;
 	.
