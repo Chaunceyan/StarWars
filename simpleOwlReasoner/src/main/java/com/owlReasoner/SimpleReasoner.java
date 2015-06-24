@@ -12,11 +12,11 @@ class SimpleReasoner {
 		simpleReasoner.doLocalReason();
 	}
 	public void doLocalReason() throws IOException {
-		File file = new File ("../StarWars-SecondDump.ttl");
+		File file = new File ("../StarWars-AfterReasoning.ttl");
 		FileOutputStream output = new FileOutputStream(file);
-        Model data = RDFDataMgr.loadModel("../StarWars-FirstDump.ttl") ;
+        Model data = RDFDataMgr.loadModel("../StarWars-BeforeReasoning.ttl") ;
 		Model schema = FileManager.get().loadModel("../root-ontology.owl");
-		Reasoner reasoner = ReasonerRegistry.getOWLMiniReasoner();
+		Reasoner reasoner = ReasonerRegistry.getOWLMacroReasoner();
 		reasoner = ((com.hp.hpl.jena.reasoner.Reasoner) reasoner).bindSchema(schema);
 		InfModel infmodel = ModelFactory.createInfModel(reasoner, data);
 		Resource character = infmodel.getResource("file:///Users/Chauncey/Documents/Projects/StarWars/StarWarsFuseki/StarWars-FirstDump.ttl#Character/2");
